@@ -5,11 +5,10 @@ class Enumerator
     raise ArgumentError, "No block given" unless block_given?
     Enumerator.new do |y|
       val = initial == NOVALUE ? yield() : initial
-      y << val
 
       loop do
-        val = yield(val)
         y << val
+        val = yield(val)
       end
     end
   end

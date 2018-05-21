@@ -15,14 +15,17 @@ After some experiments, it turns out that "start from initial value, and continu
 ```ruby
 # Infinite sequence
 p Enumerator.generate(1, &:succ).take(5)
+# => [1, 2, 3, 4, 5]
 
 # Easy Fibonacci
 p Enumerator.generate([0, 1]) { |f0, f1| [f1, f0 + f1] }.take(10).map(&:first)
+#=> [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 
 require 'date'
 
 # Find next Tuesday
 p Enumerator.generate(Date.today, &:succ).detect { |d| d.wday == 2 }
+# => #<Date: 2018-05-22 ((2458261j,0s,0n),+0s,2299161j)>
 ```
 (Other examples from [`Object#enumerate`](https://github.com/zverok/object_enumerate) are easily translated, too.)
 

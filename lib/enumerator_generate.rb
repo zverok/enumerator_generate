@@ -3,7 +3,7 @@ class Enumerator
 
   def self.generate(initial = NOVALUE)
     raise ArgumentError, "No block given" unless block_given?
-    Enumerator.new do |y|
+    Enumerator.new(Float::INFINITY) do |y|
       val = initial == NOVALUE ? yield() : initial
 
       loop do

@@ -46,3 +46,17 @@ p Enumerator.generate { scanner.scan(%r{\d+|[-+*/]}) }.take_while { !scanner.eos
 # Potential message loop system:
 Enumerator.generate { Message.receive }.take_while { |msg| msg != :exit }
 ```
+
+### Stopping iteration early
+
+```ruby
+# Raise StopIteration to signify the end when the Enumerator is finite:
+reverse_alphabet = Enumerator.generate('z') do |char|
+  raise StopIteration if char == 'a'
+  char.ord.pred.chr
+end
+reverse_alphabet.first(3)
+#=> ["z", "y", "x"]
+reverse_alphabet.count
+#=> 26
+```

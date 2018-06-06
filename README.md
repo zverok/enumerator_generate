@@ -40,23 +40,9 @@ p Enumerator.generate { rand(10) }.take_while { |i| i != target }.to_a
 # External while condition
 require 'strscan'
 scanner = StringScanner.new('7+38/6')
-p Enumerator.generate { scanner.scan(%r{\d+|[-+*/]}) }.slice_after(&scanner.method(:eos?)).first
+p Enumerator.generate { scanner.scan(%r{\d+|[-+*/]}) }.slice_after { scanner.eos? }.first
 # => ["7", "+", "38", "/", "6"]
 
 # Potential message loop system:
 Enumerator.generate { Message.receive }.take_while { |msg| msg != :exit }
-```
-
-### Stopping iteration early
-
-```ruby
-# Raise StopIteration to signify the end when the Enumerator is finite:
-reverse_alphabet = Enumerator.generate('z') do |char|
-  raise StopIteration if char == 'a'
-  char.ord.pred.chr
-end
-reverse_alphabet.first(3)
-#=> ["z", "y", "x"]
-reverse_alphabet.count
-#=> 26
 ```

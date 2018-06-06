@@ -40,8 +40,8 @@ p Enumerator.generate { rand(10) }.take_while { |i| i != target }.to_a
 # External while condition
 require 'strscan'
 scanner = StringScanner.new('7+38/6')
-p Enumerator.generate { scanner.scan(%r{\d+|[-+*/]}) }.take_while { !scanner.eos? }.to_a
-# => ["7", "+", "38", "/"]
+p Enumerator.generate { scanner.scan(%r{\d+|[-+*/]}) }.slice_after(&scanner.method(:eos?)).first
+# => ["7", "+", "38", "/", "6"]
 
 # Potential message loop system:
 Enumerator.generate { Message.receive }.take_while { |msg| msg != :exit }
